@@ -16,7 +16,11 @@ $yarn
 
 pick one of the servers from folder "server"
 
-$go run serer.go, $python3 server.py, $node sweveeApi.js
+$go run server.go (or compile it to binary $go build server.go; server)
+
+$python3 server.py 
+
+$node serverApi.js
 
 
 ## Run the app
