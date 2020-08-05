@@ -17,7 +17,9 @@
     "react-scripts": "3.2.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "server": "pm2 start server/serverApi.js --name jsserver",
+    "goserver": "pm2 start server/server.exe --name goserver",
+    "start": "set PORT=4000 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
