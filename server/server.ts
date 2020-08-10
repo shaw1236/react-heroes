@@ -53,14 +53,22 @@ export default function appRoute(app: express.Application): void {
         res.send({data: "Welcome to the rest service of Heroes powered by ts-node/MongoDb."});
     });
 
-    // List all (GET)
+    // List all (GET), support /api/heros?name=Dr
     app.get("/api/heroes", async (req: express.Request, res: express.Response) => {
         try {
-    	    let data = await HeroModel.findAsync({}, {_id: 0, __v: 0}); 
+            let query = {};
+            let term = req.query.name;
+            if (term) {
+                let pattern = { '$regex': `^${term}` };
+                query = { 'name': pattern };
+                //console.log("Search Term: ", term, query);
+            }
+                
+            let data = await HeroModel.findAsync(query, {_id: 0, __v: 0}); 
             res.send(data);
         }
         catch(ex) {
-            res.status(408).send({message: typeof ex === "object"? JSON.stringify(ex) : ex});
+            res.status(408).send({message: "" + ex});
         }
     });
 
@@ -74,7 +82,7 @@ export default function appRoute(app: express.Application): void {
                 res.send(data);
         }
         catch(ex) {
-            res.status(408).send({message: typeof ex === "object"? JSON.stringify(ex) : ex});
+            res.status(408).send({message: "" + ex});
         }
     })
 
@@ -91,11 +99,11 @@ export default function appRoute(app: express.Application): void {
                 console.log({id, name});
 
                 let data = await HeroModel.createAsync({id, name}); 
-                res.send({data});
+                res.send({id: data.id, name: data.name});
             }   
         }    
         catch(ex) {
-            res.status(408).send({message: typeof ex === "object"? JSON.stringify(ex) : ex});
+            res.status(408).send({message: "" + ex});
         }
     })
 
@@ -107,7 +115,7 @@ export default function appRoute(app: express.Application): void {
             res.send({data});
         }
         catch(ex) {
-            res.status(408).send({message: typeof ex === "object"? JSON.stringify(ex) : ex});
+            res.status(408).send({message: "" + ex});
         }
     })
 
@@ -119,11 +127,11 @@ export default function appRoute(app: express.Application): void {
             res.send({data});
         }
         catch(ex) {
-            res.status(408).send({message: typeof ex === "object"? JSON.stringify(ex) : ex});
+            res.status(408).send({message: "" + ex });
         }
     })
 
-    // Delete a (DELETE)
+    // Delete (DELETE)
     app.delete("/api/heroes/:id", async (req: express.Request, res: express.Response) => {
         console.log("ID to be deleted: " + req.params.id); // req.body.id)
 	    try {
@@ -131,7 +139,7 @@ export default function appRoute(app: express.Application): void {
             res.send({data});
         }
         catch(ex) {
-            res.status(408).send({message: typeof ex === "object"? JSON.stringify(ex) : ex});
+            res.status(408).send({message: "" + ex});
         }
     })
 }

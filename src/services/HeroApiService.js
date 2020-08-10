@@ -18,6 +18,12 @@ export default class HeroApiService {
         return await res.json();
     }
 
+    // Search term
+    static async search(term) {
+        let res = await fetch(HeroApiService.url + "?name=" + term);
+        return await res.json();
+    }
+    
     // Create
     static async post(hero) {
         let res = await fetch(HeroApiService.url, {

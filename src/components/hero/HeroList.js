@@ -51,7 +51,7 @@ export default class HeroList extends React.Component {
                     <ul class="heroes">
                         {this.state.heroes.map((hero, index) => (
                             <li key={index}>
-                                <Link to={`/hero/${hero.id}`} activeClassName="active">
+                                <Link to={`/hero/${hero.id}`}>
                                     <span class="badge">{hero.id}</span> {hero.name}    
                                 </Link>
                                 <button class="delete" onClick={() => this.handleDelete(index)}>x</button>
