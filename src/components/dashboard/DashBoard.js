@@ -1,31 +1,27 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import HeroSearch from '../hero-search/HeroSearch'
+// Custom Components
+import HeroSearch from '../hero-search/HeroSearch';
+import Message from '../message/Message';
 
+// Custom Services
 import HeroApiService from '../../services/HeroApiService';
-import './style.css';
 
-import MessageService from '../../services/MessageService';
+// Private style
+import './style.css';
 
 export default class DashBoard extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { heroes: [], nMsg: 0 };
+        this.state = { heroes: [] };
     }
 
     async componentDidMount() {
         this.setState({ heroes: [] });
         let heroes = await HeroApiService.list();
-        MessageService.add("Load the data from api");
-        heroes = heroes.slice(0, 4);
+        heroes = heroes.slice(0, heroes.length >= 4? 4 : heroes.length);
         this.setState({ heroes });
-        this.setState({ nMsg: MessageService.size() });
-    }
-
-    handleClear = async () => {
-        MessageService.clear();
-        this.setState({ nMsg: MessageService.size() });
     }
 
     render() {
@@ -38,7 +34,7 @@ export default class DashBoard extends React.Component {
                       </nav>
                 </div>
 
-      let part1 = <div>
+      let body = <div>
                     <hr/>
                     <h3>Top Heroes</h3>
                     <div className="grid grid-pad">
@@ -50,36 +46,15 @@ export default class DashBoard extends React.Component {
                       </Link>
                     ))}
                   </div>
-                  <hr/>
-                  <HeroSearch />
+                  <HeroSearch /> {/* HeroSearch component */}
                   <br/>
+                  <Message />    {/* Message component */}
                 </div>
-                
-      let part2 = <div>
-                    <hr/>
-                    <h2>Messages</h2>
-                    <button className="clear" onClick={() => this.handleClear()}>Clear</button>
-                    <div>
-                      {MessageService.get().map((message, index) => ( 
-                        <div key={index}>
-                        <p>{message}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
 
-      if (MessageService.size() > 0) {
-          return <div>
+      return <div>
                   {top}
-                  {part1}
-                  {part2}
-                </div>
-      }
-      else {
-          return <div>
-                    {top}
-                    {part1}
-                  </div>
-      }
+                  {body}
+             </div>
+      
   }
 }    

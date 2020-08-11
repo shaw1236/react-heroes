@@ -31,8 +31,9 @@ export default class HeroSearch extends React.Component {
                         </div>;
 
         let search = <div>
+                        <hr/>
                         <div id="search-component">
-                            <h4>Hero Search</h4>  
+                            <h2>Hero Search</h2>  
                             <input type='text'
                                 name='search'
                                 value={this.state.search}  
