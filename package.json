@@ -14,7 +14,7 @@
     "react-list-select": "^0.4.1",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.2.0"
+    "react-scripts": "5.0.1"
   },
   "scripts": {
     "server": "pm2 start server/serverApi.js --name jsserver",
